@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:23:39 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/12 18:28:37 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/14 17:46:38 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ int	ft_atoi(const char *str)
 
 int main(int argc, char **argv)
 {
-	t_philo	philo;
+	t_env	env;
 	
 	if (argc < 5 || argc > 6)
 	{
 		printf("ERROR:argoument count not valid");
 		return (0);
 	}
-	init(&philo, argc, argv);
+	init(&env, argc, argv);
 }
