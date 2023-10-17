@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:24:48 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/17 19:50:38 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/17 21:50:31 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,22 @@ typedef struct s_philo
 {
 	pthread_t		philo;
 	int				id;
+	int				is_alive;
+	int				is_eating;
+	int				eat_count;
 	pthread_mutex_t	*fork;
 	struct s_env	*env;
 }t_philo;
 
 typedef struct	s_env
 {
-	int		number_of_philosophers;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		max_eat;
-	t_philo	*table;
+	int				number_of_philosophers;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				max_eat;
+	pthread_mutex_t	lock;
+	t_philo			*table;
 }t_env;
 
 int	check_input(char **argv);

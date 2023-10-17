@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:23:39 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/17 19:42:45 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/17 21:42:26 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int argc, char **argv)
 		printf("ERROR:argoument count not valid\n");
 		return (0);
 	}
-	if (!(check_input(argv)))
+	if (check_input(argv))
 	{
 		printf("ERROR:negative input is not valid\n");
 		return (0);
