@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:24:48 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/14 17:44:48 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/17 18:16:13 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ typedef struct	s_env
 	int		time_to_sleep;
 	int		max_eat;
 	t_philo	*philos;
-}
+}t_env;
+
+int check_input (char **argv);
+int	init(t_env *env, int argc, char **argv);
+int	ft_atoi(const char *str);
 
 #endif

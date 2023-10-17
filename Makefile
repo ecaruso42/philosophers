@@ -1,7 +1,8 @@
 NAME = philo
 
 SRCS = \
-		main.c
+		main.c \
+		philo_init.c
 
 FLAGS = -Wall -Werror -Wextra
 CC = gcc $(FLAGS)
