@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:24:48 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/17 18:16:13 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/17 19:50:38 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,16 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <stdlib.h>
 
-typedef struct	s_philo
+struct	s_env;
+
+typedef struct s_philo
 {
 	pthread_t		philo;
 	int				id;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*fork;
+	struct s_env	*env;
 }t_philo;
 
 typedef struct	s_env
@@ -38,10 +41,10 @@ typedef struct	s_env
 	int		time_to_eat;
 	int		time_to_sleep;
 	int		max_eat;
-	t_philo	*philos;
+	t_philo	*table;
 }t_env;
 
-int check_input (char **argv);
+int	check_input(char **argv);
 int	init(t_env *env, int argc, char **argv);
 int	ft_atoi(const char *str);
 

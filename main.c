@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:23:39 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/17 18:24:34 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/17 19:42:45 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_atoi(const char *str)
 	return (num);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_env	env;
 	
