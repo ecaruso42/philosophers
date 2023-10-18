@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 16:41:41 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/17 21:53:33 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/18 15:55:01 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_input(char **argv)
 int	init(t_env *env, int argc, char **argv)
 {
 	int	i;
-	
+
 	env->number_of_philosophers = ft_atoi(argv[1]);
 	env->time_to_die = ft_atoi(argv[2]);
 	env->time_to_eat = ft_atoi(argv[3]);
@@ -49,12 +49,12 @@ int	init(t_env *env, int argc, char **argv)
 		env->max_eat = -1;
 	env->table = (t_philo *)malloc(sizeof(t_philo)
 			* env->number_of_philosophers);
-	if(pthread_mutex_init(&env->lock, NULL))
-		return(1);
+	if (pthread_mutex_init(&env->lock, NULL))
+		return (1);
 	i = 0;
 	while (i < env->number_of_philosophers)
 	{
-		if(init_philo(env, i))
+		if (init_philo(env, i))
 			return (1);
 		i++;
 	}
