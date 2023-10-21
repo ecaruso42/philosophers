@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:23:39 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/18 15:55:38 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/21 18:05:31 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,17 @@ int	ft_atoi(const char *str)
 	return (num);
 }
 
+int	ft_exit(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (i < env->number_of_philosophers)
+		pthread_mutex_destroy(&env->table[i].fork);
+	pthread_mutex_destroy(&env->lock);
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	t_env	env;
@@ -53,5 +64,16 @@ int	main(int argc, char **argv)
 		printf("ERROR:negative input is not valid\n");
 		return (0);
 	}
-	init(&env, argc, argv);
+	if (init(&env, argc, argv))
+	{
+		free(env->table);
+		return (ft_exit(&env));
+	}
+	if (play(&env))
+	{
+		free(env->table);
+		return (ft_exit(&env));
+	}
+	ft_exit(&env);
+	return (0);
 }
