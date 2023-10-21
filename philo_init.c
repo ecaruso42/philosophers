@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 16:41:41 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/21 18:02:48 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/21 22:04:36 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ u_int64_t	get_time(void)
 {
 	struct timeval	tv;
 
-	gettimeoftheday(&tv, NULL);
+	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * (u_int64_t)1000) + (tv.tv_usec / (u_int64_t)1000));
 }
 
@@ -36,20 +36,6 @@ int	init_philo(t_env *env, int i)
 	return (0);
 }
 
-int	check_input(char **argv)
-{
-	int	i;
-
-	i = 1;
-	while (argv[i])
-	{
-		if (ft_atoi(argv[i]) <= 0)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 int	init(t_env *env, int argc, char **argv)
 {
 	int	i;
@@ -58,7 +44,7 @@ int	init(t_env *env, int argc, char **argv)
 	env->time_to_die = ft_atoi(argv[2]);
 	env->time_to_eat = ft_atoi(argv[3]);
 	env->time_to_sleep = ft_atoi(argv[4]);
-	env->origin_time = get_time();
+	env->start_time = get_time();
 	if (argc == 6)
 		env->max_eat = ft_atoi(argv[5]);
 	else

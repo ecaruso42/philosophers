@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:23:39 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/21 19:57:21 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/21 22:08:55 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ int	ft_exit(t_env *env, int status)
 
 	i = 0;
 	while (i < env->number_of_philosophers)
+	{
 		pthread_mutex_destroy(&env->table[i].fork);
+		i++;
+	}
 	pthread_mutex_destroy(&env->lock);
 	return (status);
 }
@@ -59,20 +62,20 @@ int	main(int argc, char **argv)
 		printf("ERROR:argoument count not valid\n");
 		return (1);
 	}
-	if (check_input(argv))
-	{
-		printf("ERROR:negative input is not valid\n");
+	if (check_char_input(argv))
 		return (1);
-	}
+	if (check_negative_input(argv))
+		return (1);
 	if (init(&env, argc, argv))
 	{
-		free(env->table);
+		free(env.table);
 		return (ft_exit(&env, 1));
 	}
-	if (play(&env))
-	{
-		free(env->table);
-		return (ft_exit(&env, 1));
-	}
+	//if (play(&env))
+	//{
+	//	free(env->table);
+	//	return (ft_exit(&env, 1));
+	//}
+	free(env.table);
 	return(ft_exit(&env, 0));
 }
