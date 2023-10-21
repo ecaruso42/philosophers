@@ -6,11 +6,19 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 16:41:41 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/18 15:55:01 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/21 16:58:04 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+
+u_int64_t	get_time(void)
+{
+	struct timeval	tv;
+	
+	gettimeoftheday(&tv, NULL);
+	return ((tv.tv_sec * (u_int64_t)1000) + (tv.tv_usec / (u_int64_t)1000));
+}
 
 int	init_philo(t_env *env, int i)
 {
@@ -18,6 +26,14 @@ int	init_philo(t_env *env, int i)
 	env->table[i].is_alive = 1;
 	env->table[i].is_eating = 0;
 	env->table[i].eat_count = 0;
+	env->table[i].env = env;
+	if (i == env->number_of_philosophers - 1)
+		env->table[i].next_fork = 0;
+	else
+		env->table[i].next_fork = 1;
+	if (pthread_mutex_init(&env->table[i].fork, NULL))
+		return (1);
+	return (0);
 }
 
 int	check_input(char **argv)
@@ -42,7 +58,7 @@ int	init(t_env *env, int argc, char **argv)
 	env->time_to_die = ft_atoi(argv[2]);
 	env->time_to_eat = ft_atoi(argv[3]);
 	env->time_to_sleep = ft_atoi(argv[4]);
-	//origin_time_missing;
+	env->origin_time = get_time();
 	if (argc == 6)
 		env->max_eat = ft_atoi(argv[5]);
 	else
