@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:23:39 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/21 22:08:55 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/22 00:05:42 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,10 @@ int	main(int argc, char **argv)
 
 	if (argc < 5 || argc > 6)
 	{
-		printf("ERROR:argoument count not valid\n");
+		printf("ERROR: Argoument count not valid\n");
 		return (1);
 	}
-	if (check_char_input(argv))
-		return (1);
-	if (check_negative_input(argv))
+	if (check_input(argv))
 		return (1);
 	if (init(&env, argc, argv))
 	{
