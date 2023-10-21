@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:23:39 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/21 18:05:31 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/21 19:57:21 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_atoi(const char *str)
 	return (num);
 }
 
-int	ft_exit(t_env *env)
+int	ft_exit(t_env *env, int status)
 {
 	int	i;
 
@@ -47,7 +47,7 @@ int	ft_exit(t_env *env)
 	while (i < env->number_of_philosophers)
 		pthread_mutex_destroy(&env->table[i].fork);
 	pthread_mutex_destroy(&env->lock);
-	return (1);
+	return (status);
 }
 
 int	main(int argc, char **argv)
@@ -57,23 +57,22 @@ int	main(int argc, char **argv)
 	if (argc < 5 || argc > 6)
 	{
 		printf("ERROR:argoument count not valid\n");
-		return (0);
+		return (1);
 	}
 	if (check_input(argv))
 	{
 		printf("ERROR:negative input is not valid\n");
-		return (0);
+		return (1);
 	}
 	if (init(&env, argc, argv))
 	{
 		free(env->table);
-		return (ft_exit(&env));
+		return (ft_exit(&env, 1));
 	}
 	if (play(&env))
 	{
 		free(env->table);
-		return (ft_exit(&env));
+		return (ft_exit(&env, 1));
 	}
-	ft_exit(&env);
-	return (0);
+	return(ft_exit(&env, 0));
 }
