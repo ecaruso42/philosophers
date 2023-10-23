@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 16:41:41 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/21 22:04:36 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/23 16:31:52 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,29 @@ u_int64_t	get_time(void)
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * (u_int64_t)1000) + (tv.tv_usec / (u_int64_t)1000));
+}
+
+int	check_input(char **argv)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (argv[i])
+	{
+		j = 0;
+		while (argv[i][j])
+		{
+			if (argv[i][j] < 48 || argv[i][j] > 57)
+			{
+				printf("ERROR:\nInput is not valid\n");
+				return (1);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }
 
 int	init_philo(t_env *env, int i)
