@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 16:41:41 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/23 19:17:32 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/23 19:19:51 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	ft_usleep(int ms)
 {
 	u_int64_t	start;
-	
+
 	start = get_time();
 	while ((get_time() - start) < (u_int64_t)ms)
-		usleep(ms \ 10);
+		usleep(ms / 10);
 }
 
 u_int64_t	get_time(void)

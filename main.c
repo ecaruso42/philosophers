@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:23:39 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/23 16:39:37 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/23 19:20:00 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ int	main(int argc, char **argv)
 		return (ft_exit(&env, 1));
 	}
 	free(env.table);
-	return(ft_exit(&env, 0));
+	return (ft_exit(&env, 0));
 }

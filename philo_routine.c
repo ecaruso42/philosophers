@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:34:55 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/23 18:56:45 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/23 19:19:37 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	play(t_env *env)
 	while (i < env->number_of_philosophers)
 	{
 		if (pthread_create(&env->table[i].philo, NULL, &routine, (
-				void *)&env->table[i]))
+					void *)&env->table[i]))
 			return (1);
 		i++;
 	}
