@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:34:55 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/23 19:19:37 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/23 19:33:16 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 void	*routine(void *data)
 {
 	t_philo	*philo;
+	
+	philo = (t_philo *)data;
+	philo->time_left = philo->env->time_to_die + get_time();
 }
 
 int	play(t_env *env)
