@@ -6,11 +6,15 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:34:55 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/23 16:44:12 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/23 18:56:45 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+void	*routine(void *data)
+{
+	t_philo	*philo;
+}
 
 int	play(t_env *env)
 {
