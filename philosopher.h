@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:24:48 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/22 00:03:44 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/23 16:43:12 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_env
 	t_philo			*table;
 }t_env;
 
+int	play(t_env *env);
 int	check_input(char **argv);
 int	init(t_env *env, int argc, char **argv);
 int	ft_atoi(const char *str);
