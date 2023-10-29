@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:34:55 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/23 19:34:07 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/29 15:07:56 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,17 @@
 void	*routine(void *data)
 {
 	t_philo	*philo;
-	
+
 	philo = (t_philo *)data;
 	philo->time_left = philo->env->time_to_die + get_time();
+	if (philo->id % 2 != 0 && philo->env->number_of_philosophers > 1)
+		my_usleep(10);
+	//supervisor assente
+	while (philo->is_alive)
+	{
+		if (philo->env->number_of_philosophers == 1)
+			case_one(philo->env);
+	}
 }
 
 int	play(t_env *env)

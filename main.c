@@ -6,11 +6,27 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:23:39 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/23 19:20:00 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/29 15:06:09 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+
+void	message(t_philo *philo, char *str)
+{
+	u_int64_t	time;
+
+	time = get_time() - philo->env->start_time;
+	if (philo->is_alive || philo->env->number_of_philosophers == 1)
+		printf("%llu %d %s\n", time, philo->id + 1, str);
+}
+
+void	case_one(t_env *env)
+{
+	message(&env->table[0], FORK);
+	my_usleep(env->time_to_die);
+	env->table[0].is_alive = 0;
+}
 
 int	ft_atoi(const char *str)
 {
