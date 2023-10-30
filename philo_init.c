@@ -6,13 +6,13 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 16:41:41 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/23 19:19:51 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/29 15:34:38 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void	ft_usleep(int ms)
+void	my_usleep(int ms)
 {
 	u_int64_t	start;
 
@@ -62,7 +62,7 @@ int	init_philo(t_env *env, int i)
 	if (i == env->number_of_philosophers - 1)
 		env->table[i].next_fork = 0;
 	else
-		env->table[i].next_fork = 1;
+		env->table[i].next_fork = i + 1;
 	if (pthread_mutex_init(&env->table[i].fork, NULL))
 		return (1);
 	return (0);

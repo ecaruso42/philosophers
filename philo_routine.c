@@ -6,11 +6,27 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:34:55 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/29 15:07:56 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/30 17:13:45 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+
+void	eat(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->fork);
+	message(philo, FORK);
+	pthread_mutex_lock(&philo->env->table[philo->next_fork].fork);
+	message(philo, FORK);
+	philo->is_eating = 1;
+	philo->time_left += philo->env->time_to_die;
+	message(philo, EAT);
+	my_usleep(philo->env->time_to_eat);
+	philo->eat_count++;
+	philo->is_eating = 0;
+	pthread_mutex_unlock(&philo->fork);
+	pthread_mutex_unlock(&philo->env->table[philo->next_fork].fork);
+}
 
 void	*routine(void *data)
 {
@@ -23,9 +39,23 @@ void	*routine(void *data)
 	//supervisor assente
 	while (philo->is_alive)
 	{
+		if (get_time() > philo->time_left)
+		{
+			message(philo, DIE);
+			philo->is_alive = 0;
+		}
 		if (philo->env->number_of_philosophers == 1)
 			case_one(philo->env);
+		else
+		{
+			eat(philo);
+			message(philo, SLEEP);
+			my_usleep(philo->env->time_to_die);
+			message(philo, SLEEP);
+		}
 	}
+	//supervisor join
+	return((void *)0);
 }
 
 int	play(t_env *env)
@@ -47,6 +77,5 @@ int	play(t_env *env)
 			return (1);
 		i++;
 	}
-	free(env->table);
 	return (0);
 }

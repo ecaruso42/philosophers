@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:24:48 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/29 14:53:12 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/29 15:38:59 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <stdlib.h>
+# include <unistd.h>
 
 struct	s_env;
 
@@ -52,9 +53,13 @@ typedef struct s_env
 	t_philo			*table;
 }t_env;
 
-int	play(t_env *env);
-int	check_input(char **argv);
-int	init(t_env *env, int argc, char **argv);
-int	ft_atoi(const char *str);
+int			play(t_env *env);
+int			check_input(char **argv);
+int			init(t_env *env, int argc, char **argv);
+int			ft_atoi(const char *str);
+u_int64_t	get_time(void);
+void		my_usleep(int ms);
+void		message(t_philo *philo, char *str);
+void		case_one(t_env *env);
 
 #endif
