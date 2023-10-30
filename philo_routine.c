@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:34:55 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/30 17:13:45 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/30 23:23:34 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,37 @@ void	eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->env->table[philo->next_fork].fork);
 }
 
+void	die_all(t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	while (i < philo->env->number_of_philosophers)
+	{
+		philo->env->table[i].is_alive = 0;
+		i++; 
+	}
+}
+
+void	*supervisor(void *data)
+{
+		t_philo	*philo;
+
+		philo = (t_philo *) data;
+		while (get_time() < philo->time_left && (philo->env->max_eat == -1 || philo->eat_count < philo->env->max_eat))
+			;
+		if (philo->eat_count >= philo->env->max_eat && philo->env->max_eat > 0)
+			philo->is_alive = 0;
+		else
+		{
+			pthread_mutex_lock(&philo->env->lock);
+			message(philo, DIE);
+			die_all(philo);
+			pthread_mutex_unlock(&philo->env->lock);
+		}
+		return ((void *) 0);
+}
+
 void	*routine(void *data)
 {
 	t_philo	*philo;
@@ -36,14 +67,17 @@ void	*routine(void *data)
 	philo->time_left = philo->env->time_to_die + get_time();
 	if (philo->id % 2 != 0 && philo->env->number_of_philosophers > 1)
 		my_usleep(10);
-	//supervisor assente
+	//supervisor
+	if (pthread_create(&philo->supervisor, NULL, &supervisor, (
+				void *) &philo))
+		return ((void *)1);
 	while (philo->is_alive)
 	{
-		if (get_time() > philo->time_left)
-		{
-			message(philo, DIE);
-			philo->is_alive = 0;
-		}
+	//	if (get_time() > philo->time_left)
+	//	{
+	//		message(philo, DIE);
+	//		philo->is_alive = 0;
+	//	}
 		if (philo->env->number_of_philosophers == 1)
 			case_one(philo->env);
 		else
