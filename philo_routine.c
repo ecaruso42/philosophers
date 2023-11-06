@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:34:55 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/11/06 12:15:01 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/11/06 12:38:27 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,28 @@ void	die_all(t_env *env)
 	while (i < env->number_of_philosophers)
 	{
 		env->table[i].is_alive = 0;
-		i++; 
+		i++;
 	}
 }
 
 void	*supervisor(void *data)
 {
-		t_philo	*philo;
+	t_philo	*philo;
 
-		philo = (t_philo *) data;
-		while (get_time() < philo->time_left && (philo->env->max_eat == -1 || philo->eat_count < philo->env->max_eat))
-			;
-		if (philo->eat_count >= philo->env->max_eat && philo->env->max_eat > 0)
-			philo->is_alive = 0;
-		else
-		{
-			pthread_mutex_lock(&philo->env->lock);
-			message(philo, DIE);
-			die_all(philo->env);
-			pthread_mutex_unlock(&philo->env->lock);
-		}
-		return ((void *) 0);
+	philo = (t_philo *) data;
+	while (get_time() < philo->time_left && (philo->env->max_eat == -1
+			|| philo->eat_count < philo->env->max_eat))
+		;
+	if (philo->eat_count >= philo->env->max_eat && philo->env->max_eat > 0)
+		philo->is_alive = 0;
+	else
+	{
+		pthread_mutex_lock(&philo->env->lock);
+		message(philo, DIE);
+		die_all(philo->env);
+		pthread_mutex_unlock(&philo->env->lock);
+	}
+	return ((void *) 0);
 }
 
 void	*routine(void *data)
@@ -68,7 +69,7 @@ void	*routine(void *data)
 	if (philo->id % 2 != 0 && philo->env->number_of_philosophers > 1)
 		my_usleep(10);
 	if (pthread_create(&philo->supervisor, NULL, &supervisor, data))
-		return ((void*) 1);
+		return ((void *) 1);
 	pthread_detach(philo->supervisor);
 	while (philo->is_alive)
 	{
@@ -84,7 +85,7 @@ void	*routine(void *data)
 	}
 //	if (pthread_join(philo->supervisor, NULL))
 //		return((void *) 1);
-	return((void *) 0);
+	return ((void *) 0);
 }
 
 int	play(t_env *env)
@@ -94,7 +95,8 @@ int	play(t_env *env)
 	i = 0;
 	while (i < env->number_of_philosophers)
 	{
-		if (pthread_create(&env->table[i].philo, NULL, &routine, &env->table[i]))
+		if (pthread_create(&env->table[i].philo, NULL,
+				&routine, &env->table[i]))
 			return (1);
 		i++;
 	}
