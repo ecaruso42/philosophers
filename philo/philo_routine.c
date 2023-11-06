@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:34:55 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/11/06 12:38:27 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/11/06 13:23:38 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ void	*routine(void *data)
 			message(philo, THINK);
 		}
 	}
-//	if (pthread_join(philo->supervisor, NULL))
-//		return((void *) 1);
 	return ((void *) 0);
 }
 
