@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:23:39 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/10/30 18:46:59 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/10/31 17:25:19 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,8 @@ int	main(int argc, char **argv)
 	if (check_input(argv))
 		return (1);
 	if (init(&env, argc, argv))
-	{
-		free(env.table);
 		return (ft_exit(&env, 1));
-	}
 	if (play(&env))
-	{
-		free(env.table);
 		return (ft_exit(&env, 1));
-	}
-	free(env.table);
 	return (ft_exit(&env, 0));
 }

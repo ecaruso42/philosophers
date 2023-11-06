@@ -5,7 +5,7 @@ SRCS = \
 		philo_init.c \
 		philo_routine.c
 
-FLAGS = -Wall -Werror -Wextra -pthread
+FLAGS = -Wall -Werror -Wextra -g -pthread
 CC = gcc $(FLAGS)
 RM = rm -f
 
