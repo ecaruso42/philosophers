@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 16:41:41 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/11/07 19:16:56 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/11/07 21:51:30 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	init_philo(t_env *env)
 
 int	init(t_env *env, int argc, char **argv)
 {
-	sem_unlink("semlock");
 	sem_unlink("semdead");
 	sem_unlink("semeat");
 	env->number_of_philosophers = ft_atoi(argv[1]);
@@ -75,9 +74,8 @@ int	init(t_env *env, int argc, char **argv)
 		env->max_eat = ft_atoi(argv[5]);
 	else
 		env->max_eat = -1;
-	env->sem_lock = sem_open("semlock", O_CREAT, 0666, env->number_of_philosophers);
+	env->sem_eat = sem_open("semeat", O_CREAT, 0666, env->number_of_philosophers);
 	env->sem_dead = sem_open("semdead", O_CREAT, 0666, 1);
-	env->sem_eat = sem_open("semeat", O_CREAT, 0666, 1);
 	init_philo(env);
 	return (0);
 }

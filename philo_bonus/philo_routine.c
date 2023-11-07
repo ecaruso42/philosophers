@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:34:55 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/11/07 19:54:37 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/11/07 21:50:26 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	eat(t_philo *philo)
 {
-	sem_wait(philo->env->sem_lock);
+	sem_wait(philo->env->sem_eat);
 	message(philo, FORK);
-	sem_wait(philo->env->sem_lock);
+	sem_wait(philo->env->sem_eat);
 	message(philo, FORK);
 	philo->is_eating = 1;
 	philo->time_left += philo->env->time_to_die;
@@ -24,16 +24,8 @@ void	eat(t_philo *philo)
 	my_usleep(philo->env->time_to_eat);
 	philo->eat_count++;
 	philo->is_eating = 0;
-	sem_post(philo->env->sem_lock);
-	sem_post(philo->env->sem_lock);
-}
-
-void	die_all(t_env *env)
-{
-	env->philo.is_alive = 0;
-	sem_close(env->sem_lock);
-	sem_close(env->sem_dead);
-	sem_close(env->sem_eat);
+	sem_post(philo->env->sem_eat);
+	sem_post(philo->env->sem_eat);
 }
 
 void	*supervisor(void *data)
@@ -52,7 +44,7 @@ void	*supervisor(void *data)
 	else
 	{
 		sem_wait(philo->env->sem_dead);
-		die_all(philo->env);
+		philo->env->philo.is_alive = 0;
 		message(philo, DIE);
 		exit(2);
 		sem_post(philo->env->sem_dead);
@@ -74,11 +66,11 @@ void	routine(t_philo philo)
 		else
 		{
 			eat(&philo);
-			sem_wait(philo.env->sem_eat);
+			sem_wait(philo.env->sem_dead);
 			message(&philo, SLEEP);
 			my_usleep(philo.env->time_to_sleep);
 			message(&philo, THINK);
-			sem_post(philo.env->sem_eat);
+			sem_post(philo.env->sem_dead);
 		}
 	}
 }
