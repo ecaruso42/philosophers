@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 16:41:41 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/11/06 15:50:17 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/11/07 19:16:56 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,26 +52,20 @@ int	check_input(char **argv)
 	return (0);
 }
 
-int	init_philo(t_env *env, int i)
+void	init_philo(t_env *env)
 {
-	env->table[i].id = i;
-	env->table[i].is_alive = 1;
-	env->table[i].is_eating = 0;
-	env->table[i].eat_count = 0;
-	env->table[i].env = env;
-	if (i == env->number_of_philosophers - 1)
-		env->table[i].next_fork = 0;
-	else
-		env->table[i].next_fork = i + 1;
-	if (pthread_mutex_init(&env->table[i].fork, NULL))
-		return (1);
-	return (0);
+	env->philo.id = 0;
+	env->philo.is_alive = 1;
+	env->philo.is_eating = 0;
+	env->philo.eat_count = 0;
+	env->philo.env = env;
 }
 
 int	init(t_env *env, int argc, char **argv)
 {
-	int	i;
-
+	sem_unlink("semlock");
+	sem_unlink("semdead");
+	sem_unlink("semeat");
 	env->number_of_philosophers = ft_atoi(argv[1]);
 	env->time_to_die = ft_atoi(argv[2]);
 	env->time_to_eat = ft_atoi(argv[3]);
@@ -81,15 +75,9 @@ int	init(t_env *env, int argc, char **argv)
 		env->max_eat = ft_atoi(argv[5]);
 	else
 		env->max_eat = -1;
-	env->table = (t_philo *)malloc(sizeof(t_philo)
-			* env->number_of_philosophers);
-	sem_init
-	i = 0;
-	while (i < env->number_of_philosophers)
-	{
-		if (init_philo(env, i))
-			return (1);
-		i++;
-	}
+	env->sem_lock = sem_open("semlock", O_CREAT, 0666, env->number_of_philosophers);
+	env->sem_dead = sem_open("semdead", O_CREAT, 0666, 1);
+	env->sem_eat = sem_open("semeat", O_CREAT, 0666, 1);
+	init_philo(env);
 	return (0);
 }

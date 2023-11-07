@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:23:39 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/11/06 12:31:59 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/11/07 19:50:53 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	message(t_philo *philo, char *str)
 
 void	case_one(t_env *env)
 {
-	message(&env->table[0], FORK);
+	message(&env->philo, FORK);
 	my_usleep(env->time_to_die);
-	env->table[0].is_alive = 0;
+	env->philo.is_alive = 0;
 }
 
 int	ft_atoi(const char *str)
@@ -55,24 +55,25 @@ int	ft_atoi(const char *str)
 	return (num);
 }
 
-int	ft_exit(t_env *env, int status)
+void	kill_process(t_env *env)
 {
 	int	i;
 
 	i = 0;
-	while (i < env->number_of_philosophers)
+	while(i < env->number_of_philosophers)
 	{
-		pthread_mutex_destroy(&env->table[i].fork);
+		kill(env->pid[i], SIGKILL);
 		i++;
 	}
-	pthread_mutex_destroy(&env->lock);
-	return (status);
 }
 
 int	main(int argc, char **argv)
 {
 	t_env	env;
-
+	int		i;
+	int		status;
+	
+	i = -1;
 	if (argc < 5 || argc > 6)
 	{
 		printf("ERROR: Argoument count not valid\n");
@@ -80,12 +81,19 @@ int	main(int argc, char **argv)
 	}
 	if (check_input(argv))
 		return (1);
-	if (init(&env, argc, argv))
+	init(&env, argc, argv);
+	while(++i < env.number_of_philosophers)
+		play(&env, i);
+	i = -1;
+	while(++i < env.number_of_philosophers)
 	{
-		return (ft_exit(&env, 1));
-		free(env.table);
+		waitpid(-1, &status, 0);
+		if(WIFEXITED(status))
+			if(WEXITSTATUS(status) == 2)
+			{
+				printf("ciao\n");
+				kill_process(&env);
+			}
 	}
-	if (play(&env))
-		return (ft_exit(&env, 1));
-	return (ft_exit(&env, 0));
+	return (0);
 }
