@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:34:55 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/11/07 21:50:26 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/11/08 17:36:01 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	eat(t_philo *philo)
 	message(philo, FORK);
 	sem_wait(philo->env->sem_eat);
 	message(philo, FORK);
+	philo->time_left = get_time();
 	philo->is_eating = 1;
-	philo->time_left += philo->env->time_to_die;
 	message(philo, EAT);
 	my_usleep(philo->env->time_to_eat);
 	philo->eat_count++;
@@ -33,45 +33,33 @@ void	*supervisor(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *) data;
-	while (get_time() < philo->time_left && (philo->env->max_eat == -1
-			|| philo->eat_count < philo->env->max_eat))
-		;
-	if (philo->eat_count >= philo->env->max_eat && philo->env->max_eat > 0)
+	philo->time_left = get_time();
+	while ((get_time() - philo->time_left) < (u_int64_t) philo->env->time_to_die
+			&& (philo->env->max_eat == -1 || philo->eat_count < philo->env->max_eat))
+		usleep(100);
+	if (philo->eat_count >= philo->env->max_eat && philo->env->max_eat != -1)
 	{
 		philo->is_alive = 0;
-		exit(2);
 	}
 	else
 	{
 		sem_wait(philo->env->sem_dead);
-		philo->env->philo.is_alive = 0;
 		message(philo, DIE);
+		philo->is_alive = 0;
 		exit(2);
 		sem_post(philo->env->sem_dead);
 	}
 	return ((void *) 0);
 }
 
-void	routine(t_philo philo)
+void	routine(t_philo *philo)
 {
-	philo.time_left = philo.env->time_to_die + get_time();
-	if (philo.id % 2 != 0 && philo.env->number_of_philosophers > 1)
-		my_usleep(10);
-	pthread_create(&philo.supervisor, NULL, &supervisor, &philo);
-	pthread_detach(philo.supervisor);
-	while (philo.is_alive)
+	while (philo->is_alive)
 	{
-		if (philo.env->number_of_philosophers == 1)
-			case_one(philo.env);
-		else
-		{
-			eat(&philo);
-			sem_wait(philo.env->sem_dead);
-			message(&philo, SLEEP);
-			my_usleep(philo.env->time_to_sleep);
-			message(&philo, THINK);
-			sem_post(philo.env->sem_dead);
-		}
+		eat(philo);
+		message(philo, SLEEP);
+		my_usleep(philo->env->time_to_sleep);
+		message(philo, THINK);
 	}
 }
 
@@ -83,8 +71,12 @@ int	play(t_env *env, int philo_id)
 	if(pid == 0)
 	{
 		env->philo.id = philo_id;
-		routine(env->philo);
-		exit(0);
+		if (env->philo.id % 2 != 0 && env->number_of_philosophers > 1)
+			my_usleep(10);
+		pthread_create(&env->philo.supervisor, NULL, &supervisor, &env->philo);
+		pthread_detach(env->philo.supervisor);
+		routine(&env->philo);
+		exit(2);
 	}
 	else
 		env->pid[200] = pid;

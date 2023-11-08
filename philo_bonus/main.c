@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:23:39 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/11/07 21:52:16 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/11/08 16:05:39 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ int	main(int argc, char **argv)
 		if(WIFEXITED(status))
 			if(WEXITSTATUS(status) == 2)
 				kill_process(&env);
-		sem_close(env.sem_dead);
-		sem_close(env.sem_eat);
 	}
+	sem_close(env.sem_dead);
+	sem_close(env.sem_eat);
 	return (0);
 }

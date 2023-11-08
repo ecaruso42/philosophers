@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 16:41:41 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/11/07 21:51:30 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/11/08 15:33:00 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ void	init_philo(t_env *env)
 
 int	init(t_env *env, int argc, char **argv)
 {
-	sem_unlink("semdead");
 	sem_unlink("semeat");
+	sem_unlink("semdead");
 	env->number_of_philosophers = ft_atoi(argv[1]);
 	env->time_to_die = ft_atoi(argv[2]);
 	env->time_to_eat = ft_atoi(argv[3]);
