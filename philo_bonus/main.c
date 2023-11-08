@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:23:39 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/11/08 16:05:39 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/11/08 18:14:08 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	kill_process(t_env *env)
 	int	i;
 
 	i = 0;
-	while(i < env->number_of_philosophers)
+	while (i < env->number_of_philosophers)
 	{
 		kill(env->pid[i], SIGKILL);
 		i++;
@@ -72,7 +72,7 @@ int	main(int argc, char **argv)
 	t_env	env;
 	int		i;
 	int		status;
-	
+
 	i = -1;
 	if (argc < 5 || argc > 6)
 	{
@@ -82,15 +82,14 @@ int	main(int argc, char **argv)
 	if (check_input(argv))
 		return (1);
 	init(&env, argc, argv);
-	while(++i < env.number_of_philosophers)
+	while (++i < env.number_of_philosophers)
 		play(&env, i);
 	i = -1;
-	while(++i < env.number_of_philosophers)
+	while (++i < env.number_of_philosophers)
 	{
 		waitpid(-1, &status, 0);
-		if(WIFEXITED(status))
-			if(WEXITSTATUS(status) == 2)
-				kill_process(&env);
+		if (WEXITSTATUS(status) == 2)
+			kill_process(&env);
 	}
 	sem_close(env.sem_dead);
 	sem_close(env.sem_eat);
