@@ -6,7 +6,7 @@
 /*   By: ecaruso <ecaruso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:34:55 by ecaruso           #+#    #+#             */
-/*   Updated: 2023/11/08 18:27:28 by ecaruso          ###   ########.fr       */
+/*   Updated: 2023/11/09 14:46:15 by ecaruso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	*supervisor(void *data)
 	philo = (t_philo *) data;
 	philo->time_left = get_time();
 	while ((get_time() - philo->time_left) < (u_int64_t) philo->env->time_to_die
-		&& (philo->env->max_eat == -1 
+		&& (philo->env->max_eat == -1
 			|| philo->eat_count < philo->env->max_eat))
 		usleep(100);
 	if (philo->eat_count >= philo->env->max_eat && philo->env->max_eat != -1)
